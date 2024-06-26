@@ -51,6 +51,22 @@ async function getSongs(file,folder) {
         }
     }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        const audioContainer = document.getElementById('audioContainer');
+
+        // Dynamically create audio elements for each song
+        songs.forEach(song => {
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            const sourceElement = document.createElement('source');
+            sourceElement.src = `albums/${song}`;
+            sourceElement.type = 'audio/mpeg';
+            audioElement.appendChild(sourceElement);
+            audioContainer.appendChild(audioElement);
+            audioContainer.appendChild(document.createElement('br'));
+        });
+    });
+
     return songs;
 }
 
