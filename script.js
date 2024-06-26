@@ -198,7 +198,25 @@ function playingCSS() {
 
     })
 }
-
+function nextSong(){
+    if(currentSong.currentTime === currentSong.duration){
+        if (currentSongIdx < songCount - 1) {
+            currentSong.src = prevSongs[currentSongIdx + 1]
+            currentSongIdx++;
+        }
+        else {
+            currentSong.src = prevSongs[currentSongIdx]
+        }
+        setTimeout(() => {
+            currentSong.play();
+        }, 150);
+        songInfo.innerHTML = songList[currentSongIdx];
+        currentSongHtml = songInfo.innerHTML.slice(57)
+        playy.src = "img/pause.svg";
+        document.querySelector(".circle").style.left=0%
+        playingCSS()
+    }
+}
 
 async function main() {
 
@@ -394,7 +412,7 @@ async function main() {
             currentSong.play();
         }, 150);
         songInfo.innerHTML = songList[currentSongIdx];
-        currentSongHtml = songInfo.innerHTML.slice(53)
+        currentSongHtml = songInfo.innerHTML.slice(57)
         playy.src = "img/pause.svg";
         playingCSS()
 
@@ -413,7 +431,7 @@ async function main() {
             currentSong.play();
         }, 150);
         songInfo.innerHTML = songList[currentSongIdx];
-        currentSongHtml = songInfo.innerHTML.slice(53)
+        currentSongHtml = songInfo.innerHTML.slice(57)
         playy.src = "img/pause.svg";
         playingCSS()
 
@@ -424,6 +442,19 @@ async function main() {
     document.querySelector(".closeIcon").addEventListener("click", () => {
         document.querySelector(".left").style.left = "-400%";
     })
+    const observer = new MutationObserver((mutationsList, observer) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'attributes' && (mutation.attributeName === 'style')) {
+                nextSong();
+            }
+        }
+    });
+
+    // Start observing the target node for configured mutations
+    observer.observe(document.querySelector(".circle"), {
+        attributes: true, // Observe attribute changes
+        attributeFilter: ['style'] // Only observe changes to the 'style' attribute
+    });
     //add a listener to volume
     document.querySelector(".volLine").addEventListener("change", (e) => {
         console.log(e.target.value);
