@@ -59,7 +59,7 @@ async function getSongs(file,folder) {
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
             const sourceElement = document.createElement('source');
-            sourceElement.src = `albums/${song}`;
+            sourceElement.src = `albums/${file}/${folder}/${song}`;
             sourceElement.type = 'audio/mpeg';
             audioElement.appendChild(sourceElement);
             audioContainer.appendChild(audioElement);
