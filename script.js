@@ -23,7 +23,7 @@ let prevCont
 let songs
 let prevSongs;
 
-async function getSongs(file,folder) {
+async function getSongs(file, folder) {
     let a = await fetch(`http://127.0.0.1:5500/albums/${file}/${folder}/`);
     let response = await a.text();
     //console.log(response);
@@ -52,19 +52,21 @@ async function getSongs(file,folder) {
     }
 
     // document.addEventListener("DOMContentLoaded", function() {
-        const audioContainer = document.getElementById('audioContainer');
+    const audioContainer = document.getElementById('audioContainer');
 
-        // Dynamically create audio elements for each song
-        songs.forEach(song => {
-            const audioElement = document.createElement('audio');
-            audioElement.controls = true;
-            const sourceElement = document.createElement('source');
-            sourceElement.src = `albums/${file}/${folder}/${song}`;
-            sourceElement.type = 'audio/mpeg';
-            audioElement.appendChild(sourceElement);
-            audioContainer.appendChild(audioElement);
-            audioContainer.appendChild(document.createElement('br'));
-        });
+    // Dynamically create audio elements for each song
+    songs.forEach(song => {
+        const audioElement = document.createElement('audio');
+        audioElement.controls = true;
+        console.log(song);
+
+        const sourceElement = document.createElement('source');
+        sourceElement.src = `${song}`;
+        sourceElement.type = 'audio/mpeg';
+        audioElement.appendChild(sourceElement);
+        audioContainer.appendChild(audioElement);
+        audioContainer.appendChild(document.createElement('br'));
+    });
     // });
 
     return songs;
@@ -214,8 +216,8 @@ function playingCSS() {
 
     })
 }
-function nextSong(){
-    if(currentSong.currentTime === currentSong.duration){
+function nextSong() {
+    if (currentSong.currentTime === currentSong.duration) {
         if (currentSongIdx < songCount - 1) {
             currentSong.src = prevSongs[currentSongIdx + 1]
             currentSongIdx++;
@@ -229,8 +231,8 @@ function nextSong(){
         songInfo.innerHTML = songList[currentSongIdx];
         currentSongHtml = songInfo.innerHTML.slice(57)
         playy.src = "img/pause.svg";
-        document.querySelector(".circle").style.left=0%
-        playingCSS()
+        document.querySelector(".circle").style.left = 0 %
+            playingCSS()
     }
 }
 
@@ -249,13 +251,13 @@ async function main() {
             prevCont = e.querySelector(".contentBoxDiv")
             prevCont.style.backgroundColor = "#3b3b3b"
             // console.log(e.parentElement.dataset.folder);
-            let file=e.parentElement.dataset.folder
+            let file = e.parentElement.dataset.folder
             // console.log(item, item.currentTarget.dataset.folder);
             if (prevSongs === songs) {
                 prevSongs = songs;
             }
 
-            songs = await getSongs(`${file}`,`${item.currentTarget.dataset.folder}`);
+            songs = await getSongs(`${file}`, `${item.currentTarget.dataset.folder}`);
             document.querySelector(".left").style.left = "0%";
             // console.log(songs);
             let songUl = document.querySelector(".songcard").getElementsByTagName("ul")[0]
@@ -505,7 +507,7 @@ async function main() {
                 top: 100,
                 left: 300,
                 behavior: "smooth",
-              });
+            });
         })
     })
 
