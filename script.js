@@ -8,7 +8,7 @@ let playbar = document.querySelector(".playbar")
 let songInfo = document.querySelector(".songinfo")
 let timing = document.querySelector(".timing")
 let volumeIcon = document.querySelector(".volumeIcon")
-
+const audioContainer = document.getElementById('audioContainer');
 
 let songNameList = [];
 let prevSongNameList = [];
@@ -51,7 +51,7 @@ async function getSongs(file,folder) {
         }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    // document.addEventListener("DOMContentLoaded", function() {
         const audioContainer = document.getElementById('audioContainer');
 
         // Dynamically create audio elements for each song
@@ -65,7 +65,7 @@ async function getSongs(file,folder) {
             audioContainer.appendChild(audioElement);
             audioContainer.appendChild(document.createElement('br'));
         });
-    });
+    // });
 
     return songs;
 }
