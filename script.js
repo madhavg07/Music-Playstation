@@ -143,6 +143,8 @@ async function displayAlbumFolder() {
     let contentPage = document.querySelector(".contentPage");
     try {
         let response1 = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
+        console.log(response1);
+        
         let htmlText = await response1.text();
         let div = document.createElement("div");
         div.innerHTML = htmlText;
@@ -150,8 +152,10 @@ async function displayAlbumFolder() {
 
         for (let e of anchors) {
             if (e.href.includes("/albums/")) {
+                console.log(e);
                 let folder = e.href.split("/").slice(4)[0];
                 try {
+                    console.log(folder);
                     let albumResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${folder}/inform.json`);
                     let albumInfo = await albumResponse.json();
 
