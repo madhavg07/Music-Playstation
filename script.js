@@ -146,10 +146,11 @@ async function displayAlbumFolder() {
         console.log(response1);
         
         let htmlText = await response1.text();
+        console.log(htmlText);
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-
+        console.log(anchors);
         for (let e of anchors) {
             if (e.href.includes("/albums/")) {
                 console.log(e);
