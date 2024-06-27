@@ -142,8 +142,8 @@ async function displayAlbum(file) {
 async function displayAlbumFolder() {
     let contentPage = document.querySelector(".contentPage");
     try {
-        let response = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
-        let htmlText = await response.text();
+        let response1 = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
+        let htmlText = await response1.text();
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
