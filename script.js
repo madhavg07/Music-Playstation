@@ -97,8 +97,8 @@ async function displayAlbum(file) {
 
         for (let e of anchors) {
             if (e.href.includes(`/${file}/`)) {
-                console.log(e.href.split("/").slice(4));
-                let folder = e.href.split("/").slice(3)[2];
+                console.log(e.href.split("/").slice(3));
+                let folder = e.href.split("/").slice(3)[6];
                 console.log(folder);
                 if (folder !== "inform.json") {
                     try {
@@ -148,15 +148,13 @@ async function displayAlbumFolder() {
         console.log(response1);
         
         let htmlText = await response1.text();
-        console.log(htmlText);
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        console.log(anchors);
         for (let e of anchors) {
             if (e.href.includes("/albums/")) {
                 console.log(e.href.split("/").slice(4));
-                let folder = e.href.split("/").slice(4)[0];
+                let folder = e.href.split("/").slice(4)[4];
                 try {
                     console.log(folder);
                     let albumResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${folder}/inform.json`);
