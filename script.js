@@ -103,8 +103,9 @@ async function displayAlbum(file) {
                 if (folder !== "inform.json") {
                     try {
                         let songResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${file}/${folder}/info.json`);
+                        console.log(songResponse);
                         let songInfo = await songResponse.json();
-
+                        console.log(songInfo);
                         contentPlaylist.innerHTML += ` 
                             <div data-folder="${folder}" class="contentBox">
                                 <div class="contentBoxDiv">
