@@ -102,7 +102,7 @@ async function displayAlbum(file) {
                 console.log(folder);
                 if (folder !== "inform.json") {
                     try {
-                        let songResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/info.json`);
+                        let songResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${file}/${folder}/info.json`);
                         let songInfo = await songResponse.json();
 
                         contentPlaylist.innerHTML += ` 
@@ -157,7 +157,7 @@ async function displayAlbumFolder() {
                 let folder = e.href.split("/").slice(4)[4];
                 try {
                     console.log(folder);
-                    let albumResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${folder}/inform.json`);
+                    let albumResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${folder}/inform.json`);
                     let albumInfo = await albumResponse.json();
 
                     contentPage.innerHTML += ` 
