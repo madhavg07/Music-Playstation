@@ -142,7 +142,7 @@ async function displayAlbum(file) {
 async function displayAlbumFolder() {
     let contentPage = document.querySelector(".contentPage");
     try {
-        let response = await fetch(`https://madhavg07.github.io/Music-Playstation/albums/`);
+        let response = await fetch(`https://madhavg07.github.io/Music-Playstation/albums`);
         let htmlText = await response.text();
         let div = document.createElement("div");
         div.innerHTML = htmlText;
