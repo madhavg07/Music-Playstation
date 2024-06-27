@@ -24,7 +24,7 @@ let songs
 let prevSongs;
 
 async function getSongs(file, folder) {
-    let a = await fetch(`http://127.0.0.1:5500/albums/${file}/${folder}/`);
+    let a = await fetch(`https://madhavg07.github.io/Music-Playstation/albums/${file}/${folder}/`);
     let response = await a.text();
     //console.log(response);
     let div = document.createElement("div");
@@ -89,7 +89,7 @@ function timeDimention(number) {
 async function displayAlbum(file) {
     let contentPlaylist = document.querySelector(`.contentPlaylist[data-folder="${file}"]`);
     try {
-        let response = await fetch(`/albums/${file}/`);
+        let response = await fetch(`https://madhavg07.github.io/Music-Playstation/albums/${file}/`);
         let htmlText = await response.text();
         let div = document.createElement("div");
         div.innerHTML = htmlText;
@@ -142,7 +142,7 @@ async function displayAlbum(file) {
 async function displayAlbumFolder() {
     let contentPage = document.querySelector(".contentPage");
     try {
-        let response = await fetch(`/albums/`);
+        let response = await fetch(`https://madhavg07.github.io/Music-Playstation/albums/`);
         let htmlText = await response.text();
         let div = document.createElement("div");
         div.innerHTML = htmlText;
