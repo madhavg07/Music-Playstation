@@ -22,55 +22,103 @@ let dislike = "none";
 let prevCont
 let songs
 let prevSongs;
-
 async function getSongs(file, folder) {
-    let a = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`);
-    let response = await a.text();
-    //console.log(response);
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let as = div.getElementsByTagName("a");
-    let songs = []
-    let i = 0
-    while (prevSongNameList[i]) {
-        prevSongNameList[i] = "";
-        i++;
-    }
-    i = 0
-    while (songNameList[i]) {
-        prevSongNameList[i] = songNameList[i];
-        songNameList[i] = "";
-        i++;
-    }
-    i = 0;
-    for (const idx of as) {
-        if (idx.href.endsWith(".mp3")) {
-            songNameList[i] = idx.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", " ");
-            songs.push(idx.href);
-            i++;
+    try {
+        let response = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`);
+        let htmlText = await response.text();
+        
+        let div = document.createElement("div");
+        div.innerHTML = htmlText;
+        let anchors = div.getElementsByTagName("a");
+        let songs = [];
+        let songNameList = [];
+        let prevSongNameList = [];
+        
+        // Reset previous song name lists
+        songNameList.length = 0;
+        prevSongNameList.length = 0;
+
+        // Extract song names and URLs
+        for (let anchor of anchors) {
+            if (anchor.href.endsWith(".mp3")) {
+                let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
+                songNameList.push(songName);
+                let rawSongUrl = anchor.href.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                songs.push(rawSongUrl);
+            }
         }
+
+        // Dynamically create audio elements for each song
+        const audioContainer = document.getElementById('audioContainer');
+        audioContainer.innerHTML = ''; // Clear any existing audio elements
+
+        songs.forEach(song => {
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+
+            const sourceElement = document.createElement('source');
+            sourceElement.src = song;
+            sourceElement.type = 'audio/mpeg';
+            audioElement.appendChild(sourceElement);
+            audioContainer.appendChild(audioElement);
+            audioContainer.appendChild(document.createElement('br'));
+        });
+
+        return songs;
+    } catch (error) {
+        console.error(`Error fetching songs for ${folder}:`, error);
+        return [];
     }
-
-    // document.addEventListener("DOMContentLoaded", function() {
-    const audioContainer = document.getElementById('audioContainer');
-
-    // Dynamically create audio elements for each song
-    songs.forEach(song => {
-        const audioElement = document.createElement('audio');
-        audioElement.controls = true;
-        console.log(song);
-
-        const sourceElement = document.createElement('source');
-        sourceElement.src = `${song}`;
-        sourceElement.type = 'audio/mpeg';
-        audioElement.appendChild(sourceElement);
-        audioContainer.appendChild(audioElement);
-        audioContainer.appendChild(document.createElement('br'));
-    });
-    // });
-
-    return songs;
 }
+
+// async function getSongs(file, folder) {
+//     let a = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`);
+//     let response = await a.text();
+//     //console.log(response);
+//     let div = document.createElement("div");
+//     div.innerHTML = response;
+//     let as = div.getElementsByTagName("a");
+//     let songs = []
+//     let i = 0
+//     while (prevSongNameList[i]) {
+//         prevSongNameList[i] = "";
+//         i++;
+//     }
+//     i = 0
+//     while (songNameList[i]) {
+//         prevSongNameList[i] = songNameList[i];
+//         songNameList[i] = "";
+//         i++;
+//     }
+//     i = 0;
+//     for (const idx of as) {
+//         if (idx.href.endsWith(".mp3")) {
+//             songNameList[i] = idx.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", " ");
+//             songs.push(idx.href);
+//             i++;
+//         }
+//     }
+
+//     // document.addEventListener("DOMContentLoaded", function() {
+//     const audioContainer = document.getElementById('audioContainer');
+
+//     // Dynamically create audio elements for each song
+//     songs.forEach(song => {
+//         const audioElement = document.createElement('audio');
+//         audioElement.controls = true;
+//         console.log(song);
+
+//         const sourceElement = document.createElement('source');
+//         sourceElement.src = `${song}`;
+//         sourceElement.type = 'audio/mpeg';
+//         audioElement.appendChild(sourceElement);
+//         audioContainer.appendChild(audioElement);
+//         audioContainer.appendChild(document.createElement('br'));
+//     });
+//     // });
+
+//     return songs;
+// }
 
 function timeDimention(number) {
     let h = 0, m = 0, s = 0;
@@ -93,9 +141,10 @@ async function displayAlbum(file) {
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        console.log(anchors);
+        
         for (let e of anchors) {
             if (e.href.includes(`/${file}/`)) {
+                console.log(e);
                 let folderParts = e.href.split("/").slice(3);
                 console.log(folderParts);
                 if (folderParts.length >= 7) {
@@ -213,9 +262,9 @@ async function displayAlbumFolder() {
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        console.log(anchors);
         for (let e of anchors) {
             if (e.href.includes("/albums/")) {
+        console.log(e);
                 let folderParts = e.href.split("/").slice(4);
                 console.log(folderParts);
                 if (folderParts.length >= 5) {
