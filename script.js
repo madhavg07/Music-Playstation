@@ -44,7 +44,7 @@ async function getSongs(file, folder) {
             if (anchor.href.endsWith(".mp3")) {
                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
-                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com');
+                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'github.com');
                 console.log(rawSongUrl);
                 songs.push(rawSongUrl);
             }
