@@ -31,8 +31,6 @@ async function getSongs(file, folder) {
         div.innerHTML = htmlText;
         let anchors = div.getElementsByTagName("a");
         let songs = [];
-        let songNameList = [];
-        let prevSongNameList = [];
         
         // Reset previous song name lists
         songNameList.length = 0;
