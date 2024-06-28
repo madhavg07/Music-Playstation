@@ -85,7 +85,6 @@ function timeDimention(number) {
     let sec = s > 10 ? s : "0" + s
     return `${hrs}:${min}:${sec}`;
 }
-
 async function displayAlbum(file) {
     let contentPlaylist = document.querySelector(`.contentPlaylist[data-folder="${file}"]`);
     try {
@@ -94,45 +93,50 @@ async function displayAlbum(file) {
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-
+        console.log(anchors);
         for (let e of anchors) {
             if (e.href.includes(`/${file}/`)) {
-                console.log(e.href.split("/").slice(3));
-                let folder = e.href.split("/").slice(3)[6];
-                console.log(folder);
-                if (folder !== "inform.json") {
-                    try {
-                        let songResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${file}/${folder}/info.json`);
-                        console.log(songResponse);
-                        let songInfo = await songResponse.json();
-                        console.log(songInfo);
-                        contentPlaylist.innerHTML += ` 
-                            <div data-folder="${folder}" class="contentBox">
-                                <div class="contentBoxDiv">
-                                    <div class="contentImgDiv">
-                                        <img class="contentImg" aria-hidden="false" draggable="false"
-                                            src="/albums/${file}/${folder}/cover.jpeg"
-                                            data-testid="card-image" alt="">
-                                        <div class="playIcon">
-                                            <button class="playButton">
-                                                <svg class="playsvg" data-encore-id="icon" role="img"
-                                                    aria-hidden="true" viewBox="0 0 24 24"
-                                                    class="Svg-sc-ytk21e-0 bneLcE">
-                                                    <path
-                                                        d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
-                                                    </path>
-                                                </svg>
-                                            </button>
+                let folderParts = e.href.split("/").slice(3);
+                console.log(folderParts);
+                if (folderParts.length >= 7) {
+                    let folder = folderParts[6];
+                    if (folder !== "inform.json") {
+                        try {
+                            // Adjust the URL to raw.githubusercontent.com to get the raw JSON file
+                            let songResponse = await fetch(`https://raw.githubusercontent.com/madhavg07/Music-Playstation/main/albums/${file}/${folder}/info.json`);
+                            if (!songResponse.ok) {
+                                throw new Error(`HTTP error! Status: ${songResponse.status}`);
+                            }
+                            let songInfo = await songResponse.json();
+
+                            contentPlaylist.innerHTML += ` 
+                                <div data-folder="${folder}" class="contentBox">
+                                    <div class="contentBoxDiv">
+                                        <div class="contentImgDiv">
+                                            <img class="contentImg" aria-hidden="false" draggable="false"
+                                                src="https://raw.githubusercontent.com/madhavg07/Music-Playstation/main/albums/${file}/${folder}/cover.jpeg"
+                                                data-testid="card-image" alt="">
+                                            <div class="playIcon">
+                                                <button class="playButton">
+                                                    <svg class="playsvg" data-encore-id="icon" role="img"
+                                                        aria-hidden="true" viewBox="0 0 24 24"
+                                                        class="Svg-sc-ytk21e-0 bneLcE">
+                                                        <path
+                                                            d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="infoContent flex">
+                                            <h4>${songInfo.title}</h4>
+                                            <div class="contentPara">${songInfo.description}</div>
                                         </div>
                                     </div>
-                                    <div class="infoContent flex">
-                                        <h4>${songInfo.title}</h4>
-                                        <div class="contentPara">${songInfo.description}</div>
-                                    </div>
-                                </div>
-                            </div>`;
-                    } catch (error) {
-                        console.error(`Error fetching song info for ${folder}:`, error);
+                                </div>`;
+                        } catch (error) {
+                            console.error(`Error fetching song info for ${folder}:`, error);
+                        }
                     }
                 }
             }
@@ -141,6 +145,64 @@ async function displayAlbum(file) {
         console.error(`Error fetching album content for ${file}:`, error);
     }
 }
+
+
+
+// async function displayAlbum(file) {
+//     let contentPlaylist = document.querySelector(`.contentPlaylist[data-folder="${file}"]`);
+//     try {
+//         let response = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/`);
+//         let htmlText = await response.text();
+//         let div = document.createElement("div");
+//         div.innerHTML = htmlText;
+//         let anchors = Array.from(div.getElementsByTagName("a"));
+
+//         for (let e of anchors) {
+//             if (e.href.includes(`/${file}/`)) {
+//                 console.log(e.href.split("/").slice(3));
+//                 let folder = e.href.split("/").slice(3)[6];
+//                 console.log(folder);
+//                 if (folder !== "inform.json") {
+//                     try {
+//                         let songResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${file}/${folder}/info.json`);
+//                         console.log(songResponse);
+//                         let songInfo = await songResponse.json();
+//                         console.log(songInfo);
+//                         contentPlaylist.innerHTML += ` 
+//                             <div data-folder="${folder}" class="contentBox">
+//                                 <div class="contentBoxDiv">
+//                                     <div class="contentImgDiv">
+//                                         <img class="contentImg" aria-hidden="false" draggable="false"
+//                                             src="/albums/${file}/${folder}/cover.jpeg"
+//                                             data-testid="card-image" alt="">
+//                                         <div class="playIcon">
+//                                             <button class="playButton">
+//                                                 <svg class="playsvg" data-encore-id="icon" role="img"
+//                                                     aria-hidden="true" viewBox="0 0 24 24"
+//                                                     class="Svg-sc-ytk21e-0 bneLcE">
+//                                                     <path
+//                                                         d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+//                                                     </path>
+//                                                 </svg>
+//                                             </button>
+//                                         </div>
+//                                     </div>
+//                                     <div class="infoContent flex">
+//                                         <h4>${songInfo.title}</h4>
+//                                         <div class="contentPara">${songInfo.description}</div>
+//                                     </div>
+//                                 </div>
+//                             </div>`;
+//                     } catch (error) {
+//                         console.error(`Error fetching song info for ${folder}:`, error);
+//                     }
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.error(`Error fetching album content for ${file}:`, error);
+//     }
+// }
 async function displayAlbumFolder() {
     let contentPage = document.querySelector(".contentPage");
     try {
@@ -151,10 +213,11 @@ async function displayAlbumFolder() {
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        
+        console.log(anchors);
         for (let e of anchors) {
             if (e.href.includes("/albums/")) {
                 let folderParts = e.href.split("/").slice(4);
+                console.log(folderParts);
                 if (folderParts.length >= 5) {
                     let folder = folderParts[4];
                     try {
