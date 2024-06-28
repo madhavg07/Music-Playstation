@@ -141,49 +141,53 @@ async function displayAlbum(file) {
         console.error(`Error fetching album content for ${file}:`, error);
     }
 }
-
 async function displayAlbumFolder() {
     let contentPage = document.querySelector(".contentPage");
     try {
         let response1 = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
-        console.log(response1);
-        
         let htmlText = await response1.text();
+        
+        // Parse the HTML
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
+        
         for (let e of anchors) {
             if (e.href.includes("/albums/")) {
-                console.log(e.href.split("/").slice(4));
-                let folder = e.href.split("/").slice(4)[4];
-                try {
-                    console.log(folder);
-                    let albumResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${folder}/inform.json`);
-                    let albumInfo = await albumResponse.json();
+                let folderParts = e.href.split("/").slice(4);
+                if (folderParts.length >= 5) {
+                    let folder = folderParts[4];
+                    try {
+                        // Adjust the URL to raw.githubusercontent.com to get the raw JSON file
+                        let albumResponse = await fetch(`https://raw.githubusercontent.com/madhavg07/Music-Playstation/main/albums/${folder}/inform.json`);
+                        if (!albumResponse.ok) {
+                            throw new Error(`HTTP error! Status: ${albumResponse.status}`);
+                        }
+                        let albumInfo = await albumResponse.json();
 
-                    contentPage.innerHTML += ` 
-                        <div class="spotifyPlaylist">
-                            <section class="playlistBox">
-                                <div class="discription flex">
-                                    <a href="#">
-                                        <div class="heading flex">${albumInfo.heading}</div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="seeAll flex">See All <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
-    <path d="M20 12L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M15 17C15 17 20 13.3176 20 12C20 10.6824 15 7 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-</svg></div>
-                                        
-                                    </a>
-                                </div>
-                                <div class="contentPlaylist flex" data-folder="${folder}">
-                                </div>
-                            </section>
-                        </div>`
+                        contentPage.innerHTML += ` 
+                            <div class="spotifyPlaylist">
+                                <section class="playlistBox">
+                                    <div class="discription flex">
+                                        <a href="#">
+                                            <div class="heading flex">${albumInfo.heading}</div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="seeAll flex">See All <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
+        <path d="M20 12L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M15 17C15 17 20 13.3176 20 12C20 10.6824 15 7 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg></div>
+                                        </a>
+                                    </div>
+                                    <div class="contentPlaylist flex" data-folder="${folder}">
+                                    </div>
+                                </section>
+                            </div>`
 
-                    await displayAlbum(folder);
-                } catch (error) {
-                    console.error(`Error fetching album info for ${folder}:`, error);
+                        await displayAlbum(folder);
+                    } catch (error) {
+                        console.error(`Error fetching album info for ${folder}:`, error);
+                    }
                 }
             }
         }
@@ -191,6 +195,57 @@ async function displayAlbumFolder() {
         console.error('Error fetching album folders:', error);
     }
 }
+
+
+// async function displayAlbumFolder() {
+//     let contentPage = document.querySelector(".contentPage");
+//     try {
+//         let response1 = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
+//         console.log(response1);
+        
+//         let htmlText = await response1.text();
+//         let div = document.createElement("div");
+//         div.innerHTML = htmlText;
+//         let anchors = Array.from(div.getElementsByTagName("a"));
+//         for (let e of anchors) {
+//             if (e.href.includes("/albums/")) {
+//                 console.log(e.href.split("/").slice(4));
+//                 let folder = e.href.split("/").slice(4)[4];
+//                 try {
+//                     console.log(folder);
+//                     let albumResponse = await fetch(`https://github.com/madhavg07/Music-Playstation/blob/main/albums/${folder}/inform.json`);
+//                     let albumInfo = await albumResponse.json();
+
+//                     contentPage.innerHTML += ` 
+//                         <div class="spotifyPlaylist">
+//                             <section class="playlistBox">
+//                                 <div class="discription flex">
+//                                     <a href="#">
+//                                         <div class="heading flex">${albumInfo.heading}</div>
+//                                     </a>
+//                                     <a href="#">
+//                                         <div class="seeAll flex">See All <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
+//     <path d="M20 12L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+//     <path d="M15 17C15 17 20 13.3176 20 12C20 10.6824 15 7 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+// </svg></div>
+                                        
+//                                     </a>
+//                                 </div>
+//                                 <div class="contentPlaylist flex" data-folder="${folder}">
+//                                 </div>
+//                             </section>
+//                         </div>`
+
+//                     await displayAlbum(folder);
+//                 } catch (error) {
+//                     console.error(`Error fetching album info for ${folder}:`, error);
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         console.error('Error fetching album folders:', error);
+//     }
+// }
 
 function playingCSS() {
 
