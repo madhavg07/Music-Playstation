@@ -26,23 +26,23 @@ async function getSongs(file, folder) {
     try {
         let response = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`);
         let htmlText = await response.text();
-        
+
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = div.getElementsByTagName("a");
         let songs = [];
-        
+
         // Reset previous song name lists
         songNameList.length = 0;
         prevSongNameList.length = 0;
 
         // Extract song names and URLs
-        for (let i=0;i<anchors.length;i+=2) {
-            let anchor=anchors[i];
+        for (let i = 0; i < anchors.length; i += 2) {
+            let anchor = anchors[i];
             if (anchor.href.endsWith(".mp3")) {
                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
-                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'github.com');
+                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com').replace(`/blob/`, `/`);
                 console.log(rawSongUrl);
                 songs.push(rawSongUrl);
             }
@@ -141,9 +141,9 @@ async function displayAlbum(file) {
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        
-        for (let i=0;i<anchors.length;i+=2) {
-            let e=anchors[i];
+
+        for (let i = 0; i < anchors.length; i += 2) {
+            let e = anchors[i];
             if (e.href.includes(`/${file}/`)) {
                 console.log(e);
                 let folderParts = e.href.split("/").slice(3);
@@ -258,15 +258,15 @@ async function displayAlbumFolder() {
     try {
         let response1 = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
         let htmlText = await response1.text();
-        
+
         // Parse the HTML
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        for (let i=0;i<anchors.length;i+=2) {
-            let e=anchors[i];
+        for (let i = 0; i < anchors.length; i += 2) {
+            let e = anchors[i];
             if (e.href.includes("/albums/")) {
-        console.log(e);
+                console.log(e);
                 let folderParts = e.href.split("/").slice(4);
                 console.log(folderParts);
                 if (folderParts.length >= 5) {
@@ -316,7 +316,7 @@ async function displayAlbumFolder() {
 //     try {
 //         let response1 = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/`);
 //         console.log(response1);
-        
+
 //         let htmlText = await response1.text();
 //         let div = document.createElement("div");
 //         div.innerHTML = htmlText;
@@ -342,7 +342,7 @@ async function displayAlbumFolder() {
 //     <path d="M20 12L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 //     <path d="M15 17C15 17 20 13.3176 20 12C20 10.6824 15 7 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 // </svg></div>
-                                        
+
 //                                     </a>
 //                                 </div>
 //                                 <div class="contentPlaylist flex" data-folder="${folder}">
