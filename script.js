@@ -39,11 +39,13 @@ async function getSongs(file, folder) {
         prevSongNameList.length = 0;
 
         // Extract song names and URLs
-        for (let anchor of anchors) {
+        for (let i=0;i<anchors.length;i++) {
+            e=anchors[i];
             if (anchor.href.endsWith(".mp3")) {
                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
                 let rawSongUrl = anchor.href.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                console.log(rawSongUrl);
                 songs.push(rawSongUrl);
             }
         }
@@ -142,7 +144,8 @@ async function displayAlbum(file) {
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
         
-        for (let e of anchors) {
+        for (let i=0;i<anchors.length;i++) {
+            e=anchors[i];
             if (e.href.includes(`/${file}/`)) {
                 console.log(e);
                 let folderParts = e.href.split("/").slice(3);
@@ -262,7 +265,8 @@ async function displayAlbumFolder() {
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = Array.from(div.getElementsByTagName("a"));
-        for (let e of anchors) {
+        for (let i=0;i<anchors.length;i++) {
+            e=anchors[i];
             if (e.href.includes("/albums/")) {
         console.log(e);
                 let folderParts = e.href.split("/").slice(4);
