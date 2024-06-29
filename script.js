@@ -433,6 +433,7 @@ async function main() {
             }
 
             songs = await getSongs(`${file}`, `${item.currentTarget.dataset.folder}`);
+            console.log(`getSongs runs`);
             document.querySelector(".left").style.left = "0%";
             // console.log(songs);
             let songUl = document.querySelector(".songcard").getElementsByTagName("ul")[0]
