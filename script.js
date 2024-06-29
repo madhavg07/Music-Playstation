@@ -35,11 +35,13 @@ async function getSongs(file, folder) {
         // Reset previous song name lists
         songNameList.length = 0;
         prevSongNameList.length = 0;
-
+        console.log(`getSongs runs out`);
         // Extract song names and URLs
         for (let i = 0; i < anchors.length; i += 2) {
             let anchor = anchors[i];
+            console.log(`getSongs runs in`);
             if (anchor.href.endsWith(".mp3")) {
+                console.log(`getSongs runs in if`);
                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
                 let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com').replace(`/blob/`, `/`);
@@ -432,7 +434,7 @@ async function main() {
                 prevSongs = songs;
             }
 
-            songs = await getSongs(`${file}`, `${item.currentTarget.dataset.folder}`);
+            songs = await getSongs(file, item.currentTarget.dataset.folder);
             console.log(`getSongs runs`);
             document.querySelector(".left").style.left = "0%";
             // console.log(songs);
