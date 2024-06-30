@@ -711,10 +711,8 @@ a {
 }
 
 @media (max-width:500px) {
-    .playbar {
-        padding-bottom: 50px;
-    }
+    
     .library{
-        height: 75vh;
+        height: 70vh;
     }
 }

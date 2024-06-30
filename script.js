@@ -5,6 +5,7 @@ let playy = document.querySelector("#play");
 let prev = document.querySelector("#previous");
 let next = document.querySelector("#next");
 let playbar = document.querySelector(".playbar")
+let currentPlayImage = f.querySelector(".playImage")
 let songInfo = document.querySelector(".songinfo")
 let timing = document.querySelector(".timing")
 let volumeIcon = document.querySelector(".volumeIcon")
@@ -15,7 +16,6 @@ let prevSongNameList = [];
 let songList = [];
 let currentvolume
 let currentSongHtml;
-let currentPlayImage;
 let currentPlayNow
 let like = "none";
 let dislike = "none";
@@ -264,7 +264,7 @@ async function displayAlbum(file) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        
+
         for (let item of data) {
             if (item.type === 'dir' && item.name !== 'inform.json') {
                 try {
@@ -533,7 +533,7 @@ function playingCSS() {
     Array.from(document.querySelectorAll(".music")).forEach((f) => {
 
         if (currentSongHtml == f.querySelector(".songName").innerHTML) {
-            currentPlayImage = f.querySelector(".playImage")
+
             currentPlayNow = f.querySelector(".playNow")
 
             f.style.backgroundColor = "rgb(54, 208, 255)";
@@ -749,6 +749,18 @@ async function main() {
     }
     )
     playy.addEventListener("click", () => {
+        if (currentSong.paused) {
+            currentSong.play();
+            playy.src = "img/pause.svg";
+            currentPlayImage.src = "img/pause.svg"
+        }
+        else {
+            currentSong.pause()
+            playy.src = "img/play.svg"
+            currentPlayImage.src = "img/play.svg"
+        }
+    })
+    currentPlayImage.addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play();
             playy.src = "img/pause.svg";
