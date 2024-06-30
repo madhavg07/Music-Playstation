@@ -38,6 +38,9 @@ ol {
     list-style: none;
 }
 
+.home{
+    height: 20vh;
+}
 .home,
 .library,
 .navbar {
@@ -47,7 +50,7 @@ ol {
 }
 
 .library {
-    height: 80vh;
+    height: 78vh;
     margin-top: 4px;
     /* justify-content: space-between; */
 }
@@ -710,5 +713,8 @@ a {
 @media (max-width:500px) {
     .playbar {
         padding-bottom: 50px;
+    }
+    .library{
+        height: 75vh;
     }
 }
