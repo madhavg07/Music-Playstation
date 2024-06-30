@@ -24,28 +24,31 @@ let songs
 let prevSongs;
 async function getSongs(file, folder) {
     try {
-        let response = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`);
+        const url = `https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`;
+        console.log(`Fetching URL: ${url}`);
+        let response = await fetch(url);
         let htmlText = await response.text();
-
+        
         let div = document.createElement("div");
         div.innerHTML = htmlText;
         let anchors = div.getElementsByTagName("a");
         let songs = [];
 
-        // Reset previous song name lists
+        // Ensure songNameList and prevSongNameList are declared in the accessible scope
         songNameList.length = 0;
         prevSongNameList.length = 0;
-        console.log(`getSongs runs out`);
+        console.log(`Number of anchors found: ${anchors.length}`);
+
         // Extract song names and URLs
-        for (let i = 0; i < anchors.length; i += 2) {
+        for (let i = 0; i < anchors.length; i++) {
             let anchor = anchors[i];
-            console.log(`getSongs runs in`);
+            console.log(`Processing anchor ${i}: ${anchor.href}`);
             if (anchor.href.includes(".mp3")) {
-                console.log(`getSongs runs in if`);
+                console.log(`Anchor ${i} contains an MP3`);
                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
-                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com').replace(`/blob/`, `/`);
-                console.log(rawSongUrl);
+                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com').replace('/blob/', '/');
+                console.log(`Processed song URL: ${rawSongUrl}`);
                 songs.push(rawSongUrl);
             }
         }
@@ -72,6 +75,7 @@ async function getSongs(file, folder) {
         return [];
     }
 }
+
 
 // async function getSongs(file, folder) {
 //     let a = await fetch(`https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`);
