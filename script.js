@@ -9,7 +9,7 @@ let songInfo = document.querySelector(".songinfo")
 let timing = document.querySelector(".timing")
 let volumeIcon = document.querySelector(".volumeIcon")
 const audioContainer = document.getElementById('audioContainer');
-
+let currentPlayImage;
 let songNameList = [];
 let prevSongNameList = [];
 let songList = [];
