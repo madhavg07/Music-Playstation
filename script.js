@@ -46,7 +46,6 @@ async function getSongs(repo, path) {
                 const songName = file.name.replace("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
                 const rawSongUrl = file.download_url;
-                console.log(`Processed song URL: ${rawSongUrl}`);
                 songs.push(rawSongUrl);
             }
         });
@@ -327,7 +326,6 @@ async function displayAlbumFolder() {
 
         for (let item of data) {
             if (item.type === 'dir') {
-                console.log(item);
                 let folder = item.name;
                 try {
                     // Fetch inform.json from each album folder
@@ -603,7 +601,6 @@ async function main() {
             }
 
             songs = await getSongs(file, item.currentTarget.dataset.folder);
-            console.log(`getSongs runs`);
             document.querySelector(".left").style.left = "0%";
             // console.log(songs);
             let songUl = document.querySelector(".songcard").getElementsByTagName("ul")[0]

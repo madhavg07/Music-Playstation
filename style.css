@@ -707,7 +707,7 @@ a {
 
 }
 
-@media (max-width:330px) {
+@media (max-width:500px) {
     .playbar {
         padding-bottom: 50px;
     }
