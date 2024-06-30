@@ -281,7 +281,7 @@ async function displayAlbum(file) {
                             <div class="contentBoxDiv">
                                 <div class="contentImgDiv">
                                     <img class="contentImg" aria-hidden="false" draggable="false"
-                                        src="https://raw.githubusercontent.com/madhavg07/Music-Playstation/main/$albums/${file}/${item.name}/cover.jpeg"
+                                        src="https://raw.githubusercontent.com/madhavg07/Music-Playstation/main/albums/${file}/${item.name}/cover.jpeg"
                                         data-testid="card-image" alt="">
                                     <div class="playIcon">
                                         <button class="playButton">
@@ -340,7 +340,7 @@ async function displayAlbumFolder() {
                     contentPage.innerHTML += `
                         <div class="spotifyPlaylist">
                             <section class="playlistBox">
-                                <div class="description flex">
+                                <div class="discription flex">
                                     <a href="#">
                                         <div class="heading flex">${albumInfo.heading}</div>
                                     </a>
