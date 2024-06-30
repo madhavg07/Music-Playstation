@@ -22,36 +22,32 @@ let dislike = "none";
 let prevCont
 let songs
 let prevSongs;
-async function getSongs(file, folder) {
+
+async function getSongs(repo, path) {
+    const url = `https://api.github.com/repos/madhavg07/Music-Playstation/contents/albums/${repo}/${path}`;
+    const headers = {
+        // Include your personal access token if necessary
+        // 'Authorization': 'token YOUR_PERSONAL_ACCESS_TOKEN'
+    };
+
     try {
-        const url = `https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`;
-        console.log(`Fetching URL: ${url}`);
-        let response = await fetch(url);
-        let htmlText = await response.text();
-        
-        let div = document.createElement("div");
-        div.innerHTML = htmlText;
-        let anchors = div.getElementsByTagName("a");
-        let songs = [];
+        const response = await fetch(url, { headers });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const songs = [];
 
-        // Ensure songNameList and prevSongNameList are declared in the accessible scope
-        songNameList.length = 0;
-        prevSongNameList.length = 0;
-        console.log(`Number of anchors found: ${anchors.length}`);
-
-        // Extract song names and URLs
-        for (let i = 0; i < anchors.length; i++) {
-            let anchor = anchors[i];
-            console.log(`Processing anchor ${i}: ${anchor.href}`);
-            if (anchor.href.includes(".mp3")) {
-                console.log(`Anchor ${i} contains an MP3`);
-                let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
+        data.forEach(file => {
+            if (file.type === "file" && file.name.endsWith(".mp3")) {
+                console.log(`Found MP3 file: ${file.name}`);
+                const songName = file.name.replace("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
-                let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com').replace('/blob/', '/');
+                const rawSongUrl = file.download_url;
                 console.log(`Processed song URL: ${rawSongUrl}`);
                 songs.push(rawSongUrl);
             }
-        }
+        });
 
         // Dynamically create audio elements for each song
         const audioContainer = document.getElementById('audioContainer');
@@ -71,10 +67,66 @@ async function getSongs(file, folder) {
 
         return songs;
     } catch (error) {
-        console.error(`Error fetching songs for ${folder}:`, error);
+        console.error(`Error fetching songs from GitHub API:`, error);
         return [];
     }
 }
+
+
+
+// async function getSongs(file, folder) {
+//     try {
+//         const url = `https://github.com/madhavg07/Music-Playstation/tree/main/albums/${file}/${folder}/`;
+//         console.log(`Fetching URL: ${url}`);
+//         let response = await fetch(url);
+//         let htmlText = await response.text();
+
+//         let div = document.createElement("div");
+//         div.innerHTML = htmlText;
+//         let anchors = div.getElementsByTagName("a");
+//         let songs = [];
+
+//         // Ensure songNameList and prevSongNameList are declared in the accessible scope
+//         songNameList.length = 0;
+//         prevSongNameList.length = 0;
+//         console.log(`Number of anchors found: ${anchors.length}`);
+
+//         // Extract song names and URLs
+//         for (let i = 0; i < anchors.length; i++) {
+//             let anchor = anchors[i];
+//             console.log(`Processing anchor ${i}: ${anchor.href}`);
+//             if (anchor.href.includes(".mp3")) {
+//                 console.log(`Anchor ${i} contains an MP3`);
+//                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
+//                 songNameList.push(songName);
+//                 let rawSongUrl = anchor.href.replace('madhavg07.github.io', 'raw.githubusercontent.com').replace('/blob/', '/');
+//                 console.log(`Processed song URL: ${rawSongUrl}`);
+//                 songs.push(rawSongUrl);
+//             }
+//         }
+
+//         // Dynamically create audio elements for each song
+//         const audioContainer = document.getElementById('audioContainer');
+//         audioContainer.innerHTML = ''; // Clear any existing audio elements
+
+//         songs.forEach(song => {
+//             const audioElement = document.createElement('audio');
+//             audioElement.controls = true;
+
+//             const sourceElement = document.createElement('source');
+//             sourceElement.src = song;
+//             sourceElement.type = 'audio/mpeg';
+//             audioElement.appendChild(sourceElement);
+//             audioContainer.appendChild(audioElement);
+//             audioContainer.appendChild(document.createElement('br'));
+//         });
+
+//         return songs;
+//     } catch (error) {
+//         console.error(`Error fetching songs for ${folder}:`, error);
+//         return [];
+//     }
+// }
 
 
 // async function getSongs(file, folder) {
@@ -497,7 +549,7 @@ async function main() {
                         currentSongHtml = songHTML;
                         currentSong.src = songs[i];
                         currentSong.play();
-                        
+
 
                         currentSong.addEventListener("timeupdate", () => {
                             console.log(currentSong.volume);
