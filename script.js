@@ -734,7 +734,18 @@ async function main() {
                     console.log(`dislike button is clicked`);
                 });
             });
-
+            currentPlayImage.addEventListener("click", () => {
+                if (currentSong.paused) {
+                    currentSong.play();
+                    playy.src = "img/pause.svg";
+                    currentPlayImage.src = "img/pause.svg"
+                }
+                else {
+                    currentSong.pause()
+                    playy.src = "img/play.svg"
+                    currentPlayImage.src = "img/play.svg"
+                }
+            })
         })
 
     })
@@ -759,18 +770,7 @@ async function main() {
             currentPlayImage.src = "img/play.svg"
         }
     })
-    currentPlayImage.addEventListener("click", () => {
-        if (currentSong.paused) {
-            currentSong.play();
-            playy.src = "img/pause.svg";
-            currentPlayImage.src = "img/pause.svg"
-        }
-        else {
-            currentSong.pause()
-            playy.src = "img/play.svg"
-            currentPlayImage.src = "img/play.svg"
-        }
-    })
+    
     prev.addEventListener("click", () => {
         //currentSong.pause();
         if (currentSongIdx != 0) {
