@@ -37,6 +37,8 @@ async function getSongs(repo, path) {
         }
         const data = await response.json();
         const songs = [];
+        songNameList.length = 0;
+        prevSongNameList.length = 0;
 
         data.forEach(file => {
             if (file.type === "file" && file.name.endsWith(".mp3")) {
