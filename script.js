@@ -5,7 +5,6 @@ let playy = document.querySelector("#play");
 let prev = document.querySelector("#previous");
 let next = document.querySelector("#next");
 let playbar = document.querySelector(".playbar")
-let currentPlayImage = document.querySelector(".playImage")
 let songInfo = document.querySelector(".songinfo")
 let timing = document.querySelector(".timing")
 let volumeIcon = document.querySelector(".volumeIcon")
@@ -533,7 +532,7 @@ function playingCSS() {
     Array.from(document.querySelectorAll(".music")).forEach((f) => {
 
         if (currentSongHtml == f.querySelector(".songName").innerHTML) {
-
+            currentPlayImage = f.querySelector(".playImage")
             currentPlayNow = f.querySelector(".playNow")
 
             f.style.backgroundColor = "rgb(54, 208, 255)";
