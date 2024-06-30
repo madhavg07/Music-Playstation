@@ -40,7 +40,7 @@ async function getSongs(file, folder) {
         for (let i = 0; i < anchors.length; i += 2) {
             let anchor = anchors[i];
             console.log(`getSongs runs in`);
-            if (anchor.href.endsWith(".mp3")) {
+            if (anchor.href.includes(".mp3")) {
                 console.log(`getSongs runs in if`);
                 let songName = anchor.href.split(`/${folder}/`)[1].replaceAll("%20", " ").replace("320 Kbps.mp3", "");
                 songNameList.push(songName);
@@ -417,6 +417,7 @@ async function main() {
 
 
     await displayAlbumFolder();
+    currentSong.volume = 0.5;
     let contentBox = Array.from(document.querySelectorAll(".contentBox"))
     prevCont = contentBox[0].querySelector(".contentBoxDiv");
     contentBox.forEach((e) => {
@@ -492,7 +493,7 @@ async function main() {
                         currentSongHtml = songHTML;
                         currentSong.src = songs[i];
                         currentSong.play();
-                        currentSong.volume = 0.5;
+                        
 
                         currentSong.addEventListener("timeupdate", () => {
                             console.log(currentSong.volume);
