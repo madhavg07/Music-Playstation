@@ -22,7 +22,7 @@ body {
 }
 
 .right {
-
+    height: 859.24px;
     width: 75vw;
     flex-direction: column;
     margin: 3px;
@@ -376,7 +376,7 @@ a {
 }
 
 .playbar {
-    position: sticky;
+    position: fixed;
     bottom: 0;
     width: 98.7%;
     padding: 5px;
@@ -716,6 +716,6 @@ a {
         height: 73vh;
     }
     .playbar{
-        bottom: 56px;
+        bottom: 0px;
     }
 }
