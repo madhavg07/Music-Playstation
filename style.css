@@ -713,7 +713,7 @@ a {
 @media (max-width:500px) {
     
     .library{
-        height: 75vh;
+        height: 73vh;
     }
     .playbar{
         bottom: 60px;
