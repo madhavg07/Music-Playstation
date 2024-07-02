@@ -612,6 +612,9 @@ a {
     .right {
         width: 100vw;
     }
+    .playbar{
+        width: 100%;
+    }
 
     .hamburger {
         display: block;
