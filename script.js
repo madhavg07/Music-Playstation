@@ -640,7 +640,7 @@ async function main() {
             }
             )
             playingCSS()
-
+            currentPlayImage=Array.from(document.querySelectorAll(".music"))[0].querySelector(".playImage")
             function playCount() {
                 i = 0;
                 for (const song of songs) {

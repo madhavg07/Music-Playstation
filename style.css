@@ -431,7 +431,7 @@ a {
     }
 }
 
-.music:onClick {
+.music:focus {
     font-size: 1.05rem;
 
     /* filter: invert(1); */
@@ -713,6 +713,9 @@ a {
 @media (max-width:500px) {
     
     .library{
-        height: 70vh;
+        height: 75vh;
+    }
+    .playbar{
+        bottom: 60px;
     }
 }
